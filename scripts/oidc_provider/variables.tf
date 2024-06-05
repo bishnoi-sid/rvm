@@ -1,7 +1,7 @@
 variable "github_organization" {
   type        = string
   description = "List of GitHub Organizations to create OIDC provider for"
-  default = "test"
+  default = "bishnoi-sid"
 }
 
 variable "github_thumbprint_list" {
