@@ -1,7 +1,7 @@
 variable "github_organization" {
   type        = string
   description = "GitHub Organization name to create OIDC provider for"
-  default = "test"
+  default = "bishnoi-sid"
 }
 
 variable "aws_region" {
@@ -13,7 +13,7 @@ variable "aws_region" {
 variable "github_repo" {
   type        = string
   description = "GitHub Repo to create OIDC provider for"
-  default     = "role-vending-machine"
+  default     = "rvm"
 }
 
 variable "iam_role_name" {
