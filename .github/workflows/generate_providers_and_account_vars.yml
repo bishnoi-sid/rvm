@@ -51,6 +51,8 @@ jobs:
           role-to-assume: arn:aws:iam::${{ steps.dotenv.outputs.aws_account_id }}:role/github-workflow-rvm
           role-session-name: ${{ github.actor }}_${{ github.job }}
           aws-region: ${{ steps.dotenv.outputs.aws_region }}
+          audience: sts.amazonaws.com
+          role-skip-session-tagging: true
 
       - name: Generate providers
         run: python3 scripts/generate_providers_and_account_vars.py
