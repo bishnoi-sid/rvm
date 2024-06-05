@@ -54,6 +54,7 @@ jobs:
           audience: sts.amazonaws.com
           role-skip-session-tagging: true
 
+
       - name: Generate providers
         run: python3 scripts/generate_providers_and_account_vars.py
         env:
