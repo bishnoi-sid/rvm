@@ -5,13 +5,13 @@ variable "default_github_organization_name" {
 }
 
 variable "aws_region" {
-  type = string 
-  default = "us-east-2"
+  type        = string
+  default     = "us-east-2"
   description = "value of the aws-region"
 }
 
 variable "account_Production" {
-  type = string
-  default = "867346621613"
+  type        = string
+  default     = "867346621613"
   description = "account"
 }
