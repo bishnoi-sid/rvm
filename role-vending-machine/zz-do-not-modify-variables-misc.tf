@@ -15,3 +15,9 @@ variable "account_Production" {
   default     = "867346621613"
   description = "account"
 }
+
+variable "s3_bucket_name" {
+  type = string
+  default = "test-sid-bucket-rvm"
+  description = "for role inline policy"
+}
