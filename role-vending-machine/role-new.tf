@@ -4,7 +4,7 @@ module "example_security_inf_repo_Production" {
 
   # Specify target account
   providers = {
-    aws = aws.main
+    aws = aws.lab_account
   }
 
   # Trusted GitHub repository
