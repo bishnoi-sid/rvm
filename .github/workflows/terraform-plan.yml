@@ -104,33 +104,33 @@ jobs:
           echo "${PLAN:0:65536}" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - uses: actions/github-script@v6
-        # env:
-        #   ORIG_PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+      # - uses: actions/github-script@v6
+      #   # env:
+      #   #   ORIG_PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+      #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+      #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+      #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
-            <details><summary>Show Plan</summary>
+      #       <details><summary>Show Plan</summary>
 
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
+      #       \`\`\`\n
+      #       ${process.env.PLAN}
+      #       \`\`\`
 
-            </details>
+      #       </details>
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+      #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+      #       github.rest.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: output
+      #       })
 
       - name: Post Plan Success to GitHub PR
         if: steps.plan.outcome == 'success'
