@@ -17,7 +17,7 @@ variable "account_Production" {
 }
 
 variable "s3_bucket_name" {
-  type = string
-  default = "test-sid-bucket-rvm"
+  type        = string
+  default     = "test-sid-bucket-rvm"
   description = "for role inline policy"
 }

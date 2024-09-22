@@ -13,15 +13,15 @@ module "example_security_inf_repo_Production" {
   # Trusted branch for write operations
   github_branch  = "main"
   principal_type = ""
-  
+
   #########this is used to control the aws managed polices and attachments to the role
-  managed_policies = []   
+  managed_policies = []
   # Specify the least permissions required for this pipeline to run
   inline_policy = data.aws_iam_policy_document.example_security_inf_repo_Production_permissions.json
 }
 
 
-  ######### This is used to control the inline polices and attachments to the role
+######### This is used to control the inline polices and attachments to the role
 data "aws_iam_policy_document" "example_security_inf_repo_Production_permissions" {
   # Can include multiple statements
   statement {
@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "example_security_inf_repo_Production_permissions
     resources = [
       "arn:aws:s3:::*",
     ]
-  }  
+  }
 }
 
 
