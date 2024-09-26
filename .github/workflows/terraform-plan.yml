@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     #    env:
     #      TF_LOG: ${{ inputs.logLevel }}
-    defaults:
-      run:
-        working-directory: role-vending-machine
+    # defaults:
+    #   run:
+    #     working-directory: role-vending-machine
 
     steps:
       - name: Checkout
@@ -69,22 +69,28 @@ jobs:
       #   with:
       #     credentials: https://git:${{ steps.get_token.outputs.app_token }}@github.com
       #   # Doc: https://maelvls.dev/gh-actions-with-tf-private-repo/
+
+
       - name: Terraform Format
         id: fmt
+        working-directory: ${{ steps.dotenv.outputs.Target_DIR }}
         run: terraform fmt -check
         # continue-on-error: true
         # commented out, we'll fail if your PR doesn't pass `terraform fmt`
 
       - name: Terraform Init
         id: init
+        working-directory: ${{ steps.dotenv.outputs.Target_DIR }}        
         run: terraform init
 
       - name: Terraform Validate
         id: validate
+        working-directory: ${{ steps.dotenv.outputs.Target_DIR }}        
         run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
+        working-directory: ${{ steps.dotenv.outputs.Target_DIR }}        
         run: terraform plan -no-color -input=false -out=terraform.tfplan
         continue-on-error: true
 
