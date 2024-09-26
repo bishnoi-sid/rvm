@@ -13,7 +13,7 @@ module "example_security_inf_repo_Production" {
   # Trusted branch for write operations
   github_branch  = "main"
   principal_type = ""
-
+  service_name   = ["eks.amazonaws.com"]
   #########this is used to control the aws managed polices and attachments to the role
   managed_policies = []
   # Specify the least permissions required for this pipeline to run
