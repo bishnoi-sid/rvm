@@ -113,7 +113,7 @@ jobs:
       - name: Terraform destroy
         id: destroy
         #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform destroy -input=false -no-color terraform.tfplan
+        run: terraform destroy --auto-approve
         continue-on-error: true
 
       - name: Post destroy Success to GitHub PR
