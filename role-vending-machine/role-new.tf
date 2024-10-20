@@ -12,7 +12,7 @@ module "example_security_inf_repo_Production" {
   role_name       = "test-siddhant-rvm"
   # Trusted branch for write operations
   github_branch  = "main"
-  principal_type = ""
+  principal_type = "github"
   service_name   = ["eks.amazonaws.com"]
   #########this is used to control the aws managed polices and attachments to the role
   managed_policies = []
