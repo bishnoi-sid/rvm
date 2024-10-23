@@ -70,7 +70,8 @@ data "aws_iam_policy_document" "assume_role_policy" {
 
     principals {
       type        = var.principal_type == "github" ? "Federated" : var.principal_type == "saml" ? "Federated" : "Service"
-      identifiers = var.principal_type == "github" ? ["arn:aws:iam::${local.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"] : var.principal_type == "pod" ? ["pods.eks.amazonaws.com"] : var.principal_type == "saml" ? ["arn:aws:iam::${local.aws_account_id}:saml-provider/test-sid"] : var.service_name
+      # identifiers = var.principal_type == "github" ? ["arn:aws:iam::${local.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"] : var.principal_type == "pod" ? ["pods.eks.amazonaws.com"] : var.principal_type == "saml" ? ["arn:aws:iam::${local.aws_account_id}:saml-provider/test-sid"] : var.service_name
+      identifiers = var.principal_type == "github" ? ["arn:aws:iam::${local.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"] : var.principal_type == "pod" ? ["pods.eks.amazonaws.com"] : var.principal_type == "saml" ? [var.saml_provider_arn] : var.service_name      
     }
 
     dynamic "condition" {

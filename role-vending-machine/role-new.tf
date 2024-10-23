@@ -13,6 +13,7 @@ module "example_security_inf_repo_Production" {
   # Trusted branch for write operations
   github_branch  = "main"
   principal_type = "saml"
+  saml_provider_arn =  "arn:aws:iam::867346621613:saml-provider/test-sid"
   # service_name   = ["eks.amazonaws.com"]
   #########this is used to control the aws managed polices and attachments to the role
   managed_policies = []

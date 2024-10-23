@@ -151,3 +151,9 @@ variable "service_trust_policy_controls" {
     include_org_condition     = false
   }
 }
+
+variable "saml_provider_arn" {
+  default = ""
+  description = "saml based iDP"
+  type = string
+}
