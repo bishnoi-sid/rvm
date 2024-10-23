@@ -66,11 +66,11 @@ resource "aws_iam_role" "main" {
 data "aws_iam_policy_document" "assume_role_policy" {
   statement {
     effect  = "Allow"
-    actions = var.principal_type == "pod" ? ["sts:AssumeRole", "sts:TagSession"] : var.principal_type == "service" ? ["sts:AssumeRole"] : ["sts:AssumeRoleWithWebIdentity"]
+    actions = var.principal_type == "pod" ? ["sts:AssumeRole", "sts:TagSession"] : var.principal_type == "service" ? ["sts:AssumeRole"] : var.principal_type == "saml" ? ["sts:AssumeRoleWithSAML", "sts:TagSession"] : ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
-      type        = var.principal_type == "github" ? "Federated" : "Service"
-      identifiers = var.principal_type == "github" ? ["arn:aws:iam::${local.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"] : var.principal_type == "pod" ? ["pods.eks.amazonaws.com"] : var.service_name
+      type        = var.principal_type == "github" ? "Federated" : var.principal_type == "saml" ? "Federated" : "Service"
+      identifiers = var.principal_type == "github" ? ["arn:aws:iam::${local.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"] : var.principal_type == "pod" ? ["pods.eks.amazonaws.com"] : var.principal_type == "saml" ? ["arn:aws:iam::${local.aws_account_id}:saml-provider/test-sid"] : var.service_name
     }
 
     dynamic "condition" {
@@ -90,6 +90,14 @@ data "aws_iam_policy_document" "assume_role_policy" {
         values   = local.oidc_subscribers
       }
     }
+    dynamic "condition" {
+      for_each = var.principal_type == "saml" ? [1] : []
+      content {
+        test     = "StringEquals"
+        variable = "SAML:aud"
+        values   = ["https://signin.aws.amazon.com/saml"]
+      }
+    }    
 
     dynamic "condition" {
       for_each = var.principal_type == "pod" && local.pod_trust_policy_controls.include_source_account ? { "source_account" = local.aws_account_id } : {}
@@ -296,3 +304,33 @@ resource "aws_iam_role_policy" "inline_policy_readonly" {
   role   = aws_iam_role.readonly[0].name
   policy = var.inline_policy_readonly
 }
+
+
+
+
+################################################################################
+# SAML based identity provider
+################################################################################
+
+
+# data "aws_iam_policy_document" "saml-assume_role_policy" {
+#   count = var.principal_type == "saml" ? 1 : 0  
+#   statement {
+#     effect  = "Allow"
+#     actions = var.principal_type == "saml" ? ["sts:AssumeRoleWithSAML", "sts:TagSession"] : var.principal_type == "service" ? ["sts:AssumeRole"] : ["sts:AssumeRoleWithWebIdentity"]
+
+#     principals {
+#       type        = var.principal_type == "saml" ? "Federated" : "Service"
+#       identifiers = var.principal_type == "saml" ? ["arn:aws:iam::${local.aws_account_id}:saml-provider/test-sid"] : var.principal_type == "pod" ? ["pods.eks.amazonaws.com"] : var.service_name
+#     }
+
+#     dynamic "condition" {
+#       for_each = var.principal_type == "saml" ? [1] : []
+#       content {
+#         test     = "StringEquals"
+#         variable = "SAML:aud"
+#         values   = ["https://signin.aws.amazon.com/saml"]
+#       }
+#     }
+#   }
+# }  
