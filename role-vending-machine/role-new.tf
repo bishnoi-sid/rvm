@@ -125,19 +125,19 @@ data "aws_iam_policy_document" "ent-ektmp-staging002-developer-role" {
   }   
 }
 
-data "aws_iam_policy_document" "ent-ektmp-staging002-administrator-role" {
-  # Can include multiple statements
-  statement {
-    sid = "1"
-    actions = [
-      "s3:ListAllMyBuckets",
-      "s3:GetBucketLocation",
-    ]
-    resources = [
-      "arn:aws:s3:::*",
-    ]
-  }
-}
+# data "aws_iam_policy_document" "ent-ektmp-staging002-administrator-role" {
+#   # Can include multiple statements
+#   statement {
+#     sid = "1"
+#     actions = [
+#       "s3:ListAllMyBuckets",
+#       "s3:GetBucketLocation",
+#     ]
+#     resources = [
+#       "arn:aws:s3:::*",
+#     ]
+#   }
+# }
 
 
 
