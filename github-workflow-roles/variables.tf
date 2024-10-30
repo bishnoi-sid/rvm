@@ -153,7 +153,7 @@ variable "service_trust_policy_controls" {
 }
 
 variable "saml_provider_arn" {
-  default = ""
+  default = "arn:aws:iam::867346621613:saml-provider/test-sid"
   description = "saml based iDP"
   type = string
 }
