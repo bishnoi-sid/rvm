@@ -73,7 +73,7 @@ jobs:
           echo $GITHUB_WORKSPACE
           ls -ltr
           set -o allexport  # Automatically export variables
-          source ".github/workflows/.env " # Source the .env file
+          source ".github/workflows/.env" # Source the .env file
           set +o allexport  # Disable automatic export after sourcing
         # env:
         #   # Optional: Any additional environment variables can be set here
