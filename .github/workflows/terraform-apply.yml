@@ -12,7 +12,7 @@ permissions:
 on:
   push:
     branches:
-      - main
+      - main-v2
     paths:
       - role-vending-machine/**
   workflow_dispatch:

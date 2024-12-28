@@ -1,0 +1,82 @@
+name: "ENV check"
+
+env:
+  TF_LOG_PATH: ./terraform.log
+  TF_LOG: INFO #TRACE, DEBUG, INFO, WARN or ERROR
+
+permissions:
+  id-token: write
+  contents: read # This is required for actions/checkout
+  pull-requests: write
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      #checkov:skip=CKV_GHA_7:inputs constrained by options
+      TerraformLogLevel:
+        description: "Terraform Log Level"
+        required: false
+        default: "INFO"
+        type: choice
+        options:
+          - TRACE
+          - DEBUG
+          - INFO
+          - WARN
+          - ERROR
+
+jobs:
+  inform_about_apply:
+    name: Inform About Apply
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Inform on PR that Apply is Running
+        uses: mshick/add-pr-comment@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          # repo-token-user-login: "github-actions[bot]"
+          message: |
+            ***Running terraform apply***
+            Results will display here momentarily...
+
+  env-check:
+    name: "Env check"
+    runs-on: ubuntu-latest
+    env:
+      TF_LOG: ${{ inputs.TerraformLogLevel }}
+    defaults:
+      run:
+        working-directory: role-vending-machine/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # - name: Source Environment Variables
+      #   id: dotenv
+      #   uses: falti/dotenv-action@v1.0.4
+      #   with:
+      #     path: ".github/workflows/.env"
+
+      - name: Set Environment Variables
+        uses: c-py/action-dotenv-to-setenv@v4
+        with:
+          env-file: ".github/workflows/.env"
+
+      - name: Load environment variables from .env
+        run: |
+          # Read .env file line by line
+          set -o allexport  # Automatically export variables
+          source .github/workflows/.env  # Source the .env file
+          set +o allexport  # Disable automatic export after sourcing
+        # env:
+        #   # Optional: Any additional environment variables can be set here
+        #   SOME_VARIABLE: "value"
+
+      - name: Use environment variables
+        run: |
+          # Example of using an environment variable in a subsequent step
+          echo "TERRAFORM_VERSION is $TERRAFORM_VERSION"          
