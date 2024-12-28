@@ -105,4 +105,5 @@ jobs:
         run: |
           # Example of using an environment variable in a subsequent step
           echo "TERRAFORM_VERSION is $TERRAFORM_VERSION" 
+          echo "TERRAFORM_VERSION is ${{ steps.load_env.outputs.TERRAFORM_VERSION }}" 
           echo "tf dir is ${{ steps.load_env.outputs.Target_DIR }}"       
