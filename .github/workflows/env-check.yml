@@ -50,8 +50,8 @@ jobs:
       TF_LOG: ${{ inputs.TerraformLogLevel }}
     defaults:
       run:
-        # working-directory: role-vending-machine/
-        working-directory: .       
+        working-directory: role-vending-machine/
+        # working-directory: .       
     steps:
       - name: Checkout
         uses: actions/checkout@v4
