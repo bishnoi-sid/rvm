@@ -69,6 +69,7 @@ jobs:
       - name: Load environment variables from .env
         run: |
           # Read .env file line by line
+          ls -ltr
           set -o allexport  # Automatically export variables
           source ".github/workflows/.env " # Source the .env file
           set +o allexport  # Disable automatic export after sourcing
