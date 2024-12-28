@@ -68,6 +68,7 @@ jobs:
           env-file: ".github/workflows/.env"
 
       - name: Load environment variables from .env
+        id: dotenv
         run: |
           # Read .env file line by line
           echo $GITHUB_WORKSPACE
@@ -82,4 +83,5 @@ jobs:
       - name: Use environment variables
         run: |
           # Example of using an environment variable in a subsequent step
-          echo "TERRAFORM_VERSION is $TERRAFORM_VERSION"          
+          echo "TERRAFORM_VERSION is $TERRAFORM_VERSION" 
+          echo ${{ steps.dotenv.outputs.Target_DIR }}         
