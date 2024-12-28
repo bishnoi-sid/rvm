@@ -66,16 +66,37 @@ jobs:
         uses: c-py/action-dotenv-to-setenv@v4
         with:
           env-file: ".github/workflows/.env"
-
-      - name: Load environment variables from .env
-        id: dotenv
+      - name: Load environment variables from .env and set outputs
+        id: load_env
         run: |
-          # Read .env file line by line
-          echo $GITHUB_WORKSPACE
-          ls -ltr
-          set -o allexport  # Automatically export variables
-          source "$GITHUB_WORKSPACE/.github/workflows/.env" # Source the .env file
-          set +o allexport  # Disable automatic export after sourcing
+          # Path to your .env file
+          ENV_FILE="$GITHUB_WORKSPACE/.github/workflows/.env"
+
+          # Loop through each line of the .env file
+          while IFS= read -r line
+          do
+            # Skip empty lines and comments
+            if [[ "$line" != "" && "$line" != \#* ]]; then
+              key=$(echo $line | cut -d '=' -f1)
+              value=$(echo $line | cut -d '=' -f2-)
+              
+              # Export to the current environment
+              export $key=$value
+              
+              # Set the value as an output for this step
+              echo "::set-output name=$key::$value"
+            fi
+          done < $ENV_FILE
+#########################################          
+      # - name: Load environment variables from .env
+      #   id: dotenv
+      #   run: |
+      #     # Read .env file line by line
+      #     echo $GITHUB_WORKSPACE
+      #     ls -ltr
+      #     set -o allexport  # Automatically export variables
+      #     source "$GITHUB_WORKSPACE/.github/workflows/.env" # Source the .env file
+      #     set +o allexport  # Disable automatic export after sourcing
         # env:
         #   # Optional: Any additional environment variables can be set here
         #   SOME_VARIABLE: "value"
