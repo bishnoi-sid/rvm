@@ -12,7 +12,7 @@ permissions:
 on:
   push:
     branches:
-      - main
+      - main-test
   workflow_dispatch:
     inputs:
       #checkov:skip=CKV_GHA_7:inputs constrained by options
@@ -67,7 +67,7 @@ jobs:
         with:
           env-file: ".github/workflows/.env"
       - name: Load environment variables from .env and set outputs
-        id: load_env
+        id: dotenv
         run: |
           # Path to your .env file
           ENV_FILE="$GITHUB_WORKSPACE/.github/workflows/.env"
@@ -88,15 +88,15 @@ jobs:
             fi
           done < $ENV_FILE
 #########################################          
-      # - name: Load environment variables from .env
-      #   id: dotenv
-      #   run: |
-      #     # Read .env file line by line
-      #     echo $GITHUB_WORKSPACE
-      #     ls -ltr
-      #     set -o allexport  # Automatically export variables
-      #     source "$GITHUB_WORKSPACE/.github/workflows/.env" # Source the .env file
-      #     set +o allexport  # Disable automatic export after sourcing
+      - name: Load environment variables from .env
+        id: load_env
+        run: |
+          # Read .env file line by line
+          echo $GITHUB_WORKSPACE
+          ls -ltr
+          set -o allexport  # Automatically export variables
+          source "$GITHUB_WORKSPACE/.github/workflows/.env" # Source the .env file
+          set +o allexport  # Disable automatic export after sourcing
         # env:
         #   # Optional: Any additional environment variables can be set here
         #   SOME_VARIABLE: "value"
@@ -105,5 +105,5 @@ jobs:
         run: |
           # Example of using an environment variable in a subsequent step
           echo "TERRAFORM_VERSION is $TERRAFORM_VERSION" 
-          echo "TERRAFORM_VERSION is ${{ steps.load_env.outputs.TERRAFORM_VERSION }}" 
-          echo "tf dir is ${{ steps.load_env.outputs.Target_DIR }}"       
+          echo "TERRAFORM_VERSION is ${{ steps.dotenv.outputs.TERRAFORM_VERSION }}" 
+          echo "tf dir is ${{ steps.dotenv.outputs.Target_DIR }}"       
