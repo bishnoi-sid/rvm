@@ -111,7 +111,7 @@ data "aws_iam_policy_document" "ent-ektmp-staging002-developer-role" {
       "dynamodb:Scan",
     ]
     resources = ["*"]
-  }  
+  }
   statement {
     sid = "3"
     actions = [
@@ -122,7 +122,7 @@ data "aws_iam_policy_document" "ent-ektmp-staging002-developer-role" {
       "s3:ListBucketVersions",
     ]
     resources = ["*"]
-  }   
+  }
 }
 
 # data "aws_iam_policy_document" "ent-ektmp-staging002-administrator-role" {
