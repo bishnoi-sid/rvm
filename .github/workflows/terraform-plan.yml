@@ -52,6 +52,7 @@ jobs:
             fi
           done < $ENV_FILE
       - name: Load environment variables from .env
+        id: loadenvshell
         run: |
           # Read .env file line by line
           echo $GITHUB_WORKSPACE
